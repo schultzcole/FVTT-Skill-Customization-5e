@@ -6,6 +6,8 @@
 // Import JavaScript modules
 import { Utils } from "./utils.js";
 import Actor5e from "../../../../systems/dnd5e/module/actor/entity.js";
+import { d20Roll } from "../../../../systems/dnd5e/module/dice.js";
+
 
 const EMPTY_VALUE = "-";
 const MODULE_NAME = "skill-customization-5e";
@@ -39,18 +41,31 @@ function patchActor5eRollSkill() {
 	const oldRollSkill = Actor5e.prototype.rollSkill;
 
 	Actor5e.prototype.rollSkill = function(skillId, options={}) {
-		const extraOptions = {
-			parts: ["@extra"],
-			data: { extra: this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`) }
-		};
-		
-		const finalResult = oldRollSkill.call(this, skillId, mergeObject(options, extraOptions))
-			.then((result) => {
-				console.log(result)
-				return result;
-			});
+		// This is copied directly from dnd5e 0.92 entity.js:481
+		// because I can't find a good way to pass in my own modifier.
 
-		return finalResult;
+		const skl = this.data.data.skills[skillId];
+
+		// Compose roll parts and data
+		const parts = ["@mod", "@extra"];
+		const data = {mod: skl.mod + skl.prof, extra: this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`)};
+		if ( skl.bonus ) {
+		  data["skillBonus"] = skl.bonus;
+		  parts.push("@skillBonus");
+		}
+	
+		// Reliable Talent applies to any skill check we have full or better proficiency in
+		const reliableTalent = (skl.value >= 1 && this.getFlag("dnd5e", "reliableTalent"));
+	
+		// Roll and return
+		return d20Roll(mergeObject(options, {
+		  parts: parts,
+		  data: data,
+		  title: game.i18n.format("DND5E.SkillPromptTitle", {skill: CONFIG.DND5E.skills[skillId]}),
+		  speaker: ChatMessage.getSpeaker({actor: this}),
+		  halflingLucky: this.getFlag("dnd5e", "halflingLucky"),
+		  reliableTalent: reliableTalent
+		}));
 	}
 }
 
