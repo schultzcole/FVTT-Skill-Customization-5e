@@ -1,0 +1,20 @@
+.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
+    border: 1px gray solid;
+    flex: 0 0 1px;
+    padding: 0;
+    margin-top: 1px;
+    margin-right: 2px;
+    text-align: center;
+}
+
+.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus:active,.skill-cust-bonus:focus {
+    border: 1px black solid;
+}
+
+/* .dnd5e.sheet.actor ul.skills-list {
+    flex: 0 0 230px;
+} */
+
+.dnd5e.sheet.actor.character ul.skills-list {
+    flex: 0 0 230px;
+}
