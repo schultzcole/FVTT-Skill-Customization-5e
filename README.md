@@ -1,4 +1,4 @@
-# FVTT-Skill-Customization-5e
+# Skill Customization for D&D5E
 
 Gives the ability to apply arbitrary flat bonuses to skill rolls as well as changing the base ability modifier a skill roll uses.
 
