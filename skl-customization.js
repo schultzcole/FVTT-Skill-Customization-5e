@@ -32,6 +32,7 @@ function patchActor5ePrepareData() {
 			let skill = skills[key];
 			let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
 			skill.total += bonus;
+			skill.passive = 10 + skill.total;
 		}
 	}
 }
