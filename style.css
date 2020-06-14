@@ -21,10 +21,6 @@
 }
 
 .dnd5e.sheet.actor ul.skills-list,
-.dnd5e.sheet.actor.character ul.skills-list.skill-customize {
-    flex: 0 0 230px;
-}
-
-tidy5e.dnd5e.sheet.actor.character ul.skills-list.skill-customize {
+.dnd5e.sheet.actor.character:not(.alt5e) ul.skills-list.skill-customize {
     flex: 0 0 230px;
 }

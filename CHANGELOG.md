@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.2.0] 2020-06-13
+
+## ADDED
+
+- Add formatting support for Sky's Alt 5e sheet. Previously there was some layout issues with this sheet, this has been resolved.
+
 ## [1.1.0] 2020-06-13
 
 ## ADDED
