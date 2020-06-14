@@ -21,6 +21,7 @@
     text-align-last: center;
     -moz-text-align-last: center;
     -ms-text-align-last: center;
+    margin-right: 2px;
 }
 
 .dnd5e.sheet.actor ul.skills-list,
