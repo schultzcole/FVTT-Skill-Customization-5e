@@ -11,10 +11,19 @@
     border: 1px black solid;
 }
 
-/* .dnd5e.sheet.actor ul.skills-list {
-    flex: 0 0 230px;
-} */
+.dnd5e.sheet.actor .skills-list > .skill > .skill-ability-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex: 0 0 1px;
+    height: 1rem;
+    padding: 0 2px;
+    text-align-last: center;
+    -moz-text-align-last: center;
+    -ms-text-align-last: center;
+}
 
+.dnd5e.sheet.actor ul.skills-list,
 .dnd5e.sheet.actor.character ul.skills-list {
     flex: 0 0 230px;
 }

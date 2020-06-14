@@ -18,7 +18,7 @@ Hooks.once("setup", () => {
 	patchActor5eRollSkill();
 });
 
-Hooks.on("renderActorSheet", injectMsbTextBoxes);
+Hooks.on("renderActorSheet", injectActorSheet);
 
 function patchActor5ePrepareData() {
 	Utils.log("Patching Actor5e.prepareData()");
@@ -69,27 +69,50 @@ function patchActor5eRollSkill() {
 	}
 }
 
-function injectMsbTextBoxes(app, html, data) {
+function injectActorSheet(app, html, data) {
 	Utils.log(`injecting skill modifier textboxes into sheet for Actor:${app.actor.name}`);
 	const skillRowSelector = ".skills-list .skill";
 
+	const actor = app.actor;
+
 	html.find(skillRowSelector).each(function() {
 		const skillElem = $(this);
-		const bonusKey = `${$(this).attr("data-skill")}.${SKILL_BONUS_KEY}`
-		
+		const skillKey = $(this).attr("data-skill");
+		const bonusKey = `${skillKey}.${SKILL_BONUS_KEY}`
+		const selectedAbility = actor.data.data.skills[skillKey].ability;
+
+		let selectElement = $('<select>');
+		selectElement.addClass("skill-ability-select");
+		Object.keys(actor.data.data.abilities).forEach(ability => {
+			let abilityOption = $('<option>');
+			let abilityKey = ability.charAt(0).toUpperCase() + ability.slice(1);
+			let abilityString = game.i18n.localize(`DND5E.Ability${abilityKey}`).slice(0,3);
+
+			abilityOption.attr("value", ability);
+
+			if (ability === selectedAbility) {
+				abilityOption.attr("selected", "true");
+			}
+
+			abilityOption.text(abilityString);
+			selectElement.append(abilityOption);
+		});
+
 		let textBoxElement = $('<input type="text" size=2>');
 		textBoxElement.addClass("skill-cust-bonus");
-		textBoxElement.val(app.actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+		textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
 
 		textBoxElement.change(function(event) {
 			const parsedInt = parseInt(event.target.value);
 			if (isNaN(parsedInt)) {
-				textBoxElement.val(app.actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+				textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
 			} else {
-				app.actor.setFlag(MODULE_NAME, bonusKey, parsedInt)
+				actor.setFlag(MODULE_NAME, bonusKey, parsedInt)
 			}
 		});
 
-		skillElem.find(".skill-ability").after(textBoxElement);
+		skillElem.find(".skill-ability").after(selectElement);
+		skillElem.find(".skill-ability").detach()
+		selectElement.after(textBoxElement);
 	});
 }
