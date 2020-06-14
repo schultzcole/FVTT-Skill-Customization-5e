@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.1.0] 2020-06-13
+
+## ADDED
+
+- Add formatting support for Tidy5e Sheet. Previously there was some layout issues with this sheet, this has been resolved.
+
 ## [1.0.1] 2020-06-13
 
 ## FIXED
