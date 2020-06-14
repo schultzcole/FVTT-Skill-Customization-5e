@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.2.1] 2020-06-04
+
+## ADDED
+
+- The skill bonus text box will now select its contents when focused. This will make it easier to quickly edit a skill bonus.
+
+## FIXED
+
+- Fix an issue where skills would be cut off the bottom of the skill list in Tidy 5e (thanks kleelue for the report!).
+
 ## [1.2.0] 2020-06-13
 
 ## ADDED
