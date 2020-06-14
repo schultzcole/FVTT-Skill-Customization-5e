@@ -7,10 +7,6 @@
     text-align: center;
 }
 
-.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus:active,.skill-cust-bonus:focus {
-    border: 1px black solid;
-}
-
 .dnd5e.sheet.actor .skills-list > .skill > .skill-ability-select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -25,6 +21,10 @@
 }
 
 .dnd5e.sheet.actor ul.skills-list,
-.dnd5e.sheet.actor.character ul.skills-list {
+.dnd5e.sheet.actor.character ul.skills-list.skill-customize {
+    flex: 0 0 230px;
+}
+
+tidy5e.dnd5e.sheet.actor.character ul.skills-list.skill-customize {
     flex: 0 0 230px;
 }

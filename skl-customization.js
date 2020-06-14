@@ -72,6 +72,9 @@ function patchActor5eRollSkill() {
 
 function injectActorSheet(app, html, data) {
 	Utils.log(`injecting skill modifier textboxes into sheet for Actor:${app.actor.name}`);
+
+	html.find(".skills-list").addClass("skill-customize")
+
 	const skillRowSelector = ".skills-list .skill";
 
 	const actor = app.actor;
