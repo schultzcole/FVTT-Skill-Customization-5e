@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.0.1] 2020-06-13
+
+## FIXED
+
+- Fixed passive scores not being updated with the extra bonus.
+
 ## [1.0.0] 2020-06-13
 
 ### ADDED
