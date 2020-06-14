@@ -3,7 +3,7 @@
   "title": "Skill Customization for D&D5e",
   "description": "Gives the ability to apply arbitrary flat bonuses to skill rolls as well as changing the base ability modifier a skill roll uses.",
   "systems": ["dnd5e"],
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Cole Schultz (cole#9640)",
   "esmodules": [
     "skl-customization.js"
@@ -16,8 +16,8 @@
   "compatibleCoreVersion": "0.6.2",
 	"url": "https://github.com/schultzcole/FVTT-Skill-Customization-5e",
 	"manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Skill-Customization-5e/master/module.json",
-	"download": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/archive/0.1.0.zip",
-	"license": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.1.0/LICENSE",
-	"readme": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.1.0/README.md",
-	"changelog": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.1.0/CHANGELOG.md"
+	"download": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/archive/1.0.0.zip",
+	"license": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.0.0/LICENSE",
+	"readme": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.0.0/README.md",
+	"changelog": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/1.0.0/CHANGELOG.md"
 }
