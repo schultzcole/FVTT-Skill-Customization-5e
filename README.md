@@ -8,9 +8,11 @@ Gives the ability to apply arbitrary flat bonuses to skill rolls as well as chan
 
 As you can see, this module adds a drop down to select the base ability, as well as a box to enter an arbitrary bonus to each skill.
 
-## Caveats
+## Compatibility
 
-Probably doesn't work with other actor sheets right now.
+May or may not work with all custom sheets or modules that modify rolling.
+
+Confirmed compatibility with Tidy5e Sheet, Alt5e Sheet, and Better Rolls for 5e.
 
 ## License
 
