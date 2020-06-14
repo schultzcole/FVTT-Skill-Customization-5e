@@ -113,6 +113,10 @@ function injectActorSheet(app, html, data) {
 		textBoxElement.addClass("skill-cust-bonus");
 		textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
 
+		textBoxElement.click(function() {
+			$(this).select();
+		});
+
 		textBoxElement.change(function(event) {
 			const parsedInt = parseInt(event.target.value);
 			if (isNaN(parsedInt)) {
