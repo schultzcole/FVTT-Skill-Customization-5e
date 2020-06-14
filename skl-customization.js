@@ -98,6 +98,13 @@ function injectActorSheet(app, html, data) {
 			selectElement.append(abilityOption);
 		});
 
+		selectElement.change(function(event) {
+			console.log(event.target.value);
+			let newData = { data: { skills: {}}};
+			newData.data.skills[skillKey] = { ability: event.target.value };
+			actor.update(newData);
+		});
+
 		let textBoxElement = $('<input type="text" size=2>');
 		textBoxElement.addClass("skill-cust-bonus");
 		textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
