@@ -1,26 +1,50 @@
-.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
-    border: 1px gray solid;
+.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus,
+.dnd5e.sheet.actor .skills-list > .skill > .skill-ability-select {
     flex: 0 0 1px;
-    padding: 0;
     margin-right: 2px;
-    text-align: center;
+    font-family: Signika;
     height: 1rem;
 }
 
+.dnd5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
+    border: 1px gray solid;
+    padding: 0;
+    text-align: center;
+}
+
 .dnd5e.sheet.actor .skills-list > .skill > .skill-ability-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    flex: 0 0 1px;
-    height: 1rem;
     padding: 0 2px;
     text-align-last: center;
     -moz-text-align-last: center;
     -ms-text-align-last: center;
-    margin-right: 2px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .dnd5e.sheet.actor ul.skills-list,
 .dnd5e.sheet.actor.character:not(.alt5e) ul.skills-list.skill-customize {
     flex: 0 0 230px;
+}
+
+/* tidy 5e compatibility */
+.tidy5e.sheet.actor.character .left-pane {
+	flex: 0 0 290px !important;
+}
+
+.tidy5e.sheet.actor.character ul.skills-list.skill-customize {
+  flex: 0 0 210px !important;
+}
+
+.tidy5e.sheet.actor.character .traits {
+  width: 290px !important;
+}
+
+
+.tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select,
+.tidy5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
+    height: .9rem;
+    line-height: .8rem;
+    font-size: .7rem;
+    margin-top: -1px;
 }
