@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.2.2] 2020-06-22
+
+### FIXED
+
+- Fix layout issues with Tidy5e sheet (both pc and the new npc sheets).
+
 ## [1.2.1] 2020-06-04
 
 ### ADDED
