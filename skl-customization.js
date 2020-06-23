@@ -71,8 +71,6 @@ function patchActor5eRollSkill() {
 }
 
 function injectActorSheet(app, html, data) {
-	Utils.log(`injecting skill modifier textboxes into sheet for Actor:${app.actor.name}`);
-
 	html.find(".skills-list").addClass("skill-customize")
 
 	const skillRowSelector = ".skills-list .skill";
@@ -103,7 +101,6 @@ function injectActorSheet(app, html, data) {
 		});
 
 		selectElement.change(function(event) {
-			console.log(event.target.value);
 			let newData = { data: { skills: {}}};
 			newData.data.skills[skillKey] = { ability: event.target.value };
 			actor.update(newData);
