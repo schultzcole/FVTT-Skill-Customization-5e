@@ -22,25 +22,11 @@
     appearance: none;
 }
 
-.dnd5e.sheet.actor ul.skills-list,
-.dnd5e.sheet.actor.character:not(.alt5e) ul.skills-list.skill-customize {
+.dnd5e.sheet.actor:not(.alt5e):not(.tidy5e) ul.skills-list  {
     flex: 0 0 230px;
 }
 
 /* tidy 5e compatibility */
-.tidy5e.sheet.actor.character .left-pane {
-	flex: 0 0 290px !important;
-}
-
-.tidy5e.sheet.actor.character ul.skills-list.skill-customize {
-  flex: 0 0 210px !important;
-}
-
-.tidy5e.sheet.actor.character .traits {
-  width: 290px !important;
-}
-
-
 .tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select,
 .tidy5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
     height: .9rem;
