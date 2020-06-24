@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## [1.3.0] 2020-06-23
+
+### ADDED
+
+- Update core compatible version to 0.6.4.
+- Allow for roll bonuses.
+
+### FIXED
+
+- Fix some additional layout issues with Tidy5e sheet on Firefox.
+- Remove language definitions in manifest (this mod doesn't add any text, so no need for translations).
+
 ## [1.2.2] 2020-06-22
 
 ### FIXED
