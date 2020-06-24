@@ -31,8 +31,11 @@ function patchActor5ePrepareData() {
 		for (let key in skills) {
 			let skill = skills[key];
 			let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
-			skill.total += bonus;
-			skill.passive = 10 + skill.total;
+			let bonusAsInt = parseInt(bonus)
+			if (!isNaN(bonusAsInt)) {
+				skill.total += bonusAsInt;
+				skill.passive = 10 + skill.total;
+			}
 		}
 	}
 }
@@ -114,12 +117,17 @@ function injectActorSheet(app, html, data) {
 			$(this).select();
 		});
 
-		textBoxElement.change(function(event) {
-			const parsedInt = parseInt(event.target.value);
-			if (isNaN(parsedInt)) {
-				textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+		textBoxElement.change(async function(event) {
+			const bonusValue = event.target.value;
+			const rollResult = await (new Roll(`1d20 + ${bonusValue}`).roll());
+			console.log(rollResult);
+			console.log(rollResult._total);
+			const valid = !isNaN(rollResult._total);
+
+			if (valid) {
+				actor.setFlag(MODULE_NAME, bonusKey, bonusValue)
 			} else {
-				actor.setFlag(MODULE_NAME, bonusKey, parsedInt)
+				textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
 			}
 		});
 
