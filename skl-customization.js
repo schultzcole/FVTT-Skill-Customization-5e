@@ -31,7 +31,7 @@ function patchActor5ePrepareData() {
 		for (let key in skills) {
 			let skill = skills[key];
 			let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
-			let bonusAsInt = parseInt(bonus)
+			let bonusAsInt = parseInt(Number(bonus));
 			if (!isNaN(bonusAsInt)) {
 				skill.total += bonusAsInt;
 				skill.passive = 10 + skill.total;
