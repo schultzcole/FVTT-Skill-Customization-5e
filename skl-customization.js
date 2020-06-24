@@ -120,8 +120,6 @@ function injectActorSheet(app, html, data) {
 		textBoxElement.change(async function(event) {
 			const bonusValue = event.target.value;
 			const rollResult = await (new Roll(`1d20 + ${bonusValue}`).roll());
-			console.log(rollResult);
-			console.log(rollResult._total);
 			const valid = !isNaN(rollResult._total);
 
 			if (valid) {
