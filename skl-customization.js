@@ -5,132 +5,111 @@
 
 // Import JavaScript modules
 import { Utils } from "./utils.js";
-import Actor5e from "../../../../systems/dnd5e/module/actor/entity.js";
-import { d20Roll } from "../../../../systems/dnd5e/module/dice.js";
-
 
 const EMPTY_VALUE = "-";
 const MODULE_NAME = "skill-customization-5e";
 const SKILL_BONUS_KEY = "skill-bonus";
 
 Hooks.once("setup", () => {
-	patchActor5ePrepareData();
-	patchActor5eRollSkill();
+    patchActor5ePrepareData();
+    patchActor5eRollSkill();
 });
 
 Hooks.on("renderActorSheet", injectActorSheet);
 
 function patchActor5ePrepareData() {
-	Utils.log("Patching Actor5e.prepareData()");
-	const oldPrepareData = Actor5e.prototype.prepareData;
+    Utils.log("Patching Actor5e.prepareData()");
+    const oldPrepareData = CONFIG.Actor.entityClass.prototype.prepareData;
 
-	Actor5e.prototype.prepareData = function() {
-		oldPrepareData.call(this);
+    CONFIG.Actor.entityClass.prototype.prepareData = function () {
+        oldPrepareData.call(this);
 
-		const skills = this.data.data.skills;
-		for (let key in skills) {
-			let skill = skills[key];
-			let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
-			let bonusAsInt = parseInt(Number(bonus));
-			if (!isNaN(bonusAsInt)) {
-				skill.total += bonusAsInt;
-				skill.passive = 10 + skill.total;
-			}
-		}
-	}
+        const skills = this.data.data.skills;
+        for (let key in skills) {
+            let skill = skills[key];
+            let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
+            let bonusAsInt = parseInt(Number(bonus));
+            if (!isNaN(bonusAsInt)) {
+                skill.total += bonusAsInt;
+                skill.passive = 10 + skill.total;
+            }
+        }
+    };
 }
 
 function patchActor5eRollSkill() {
-	Utils.log("Patching Actor5e.rollSkill()");
-	const oldRollSkill = Actor5e.prototype.rollSkill;
+    Utils.log("Patching Actor5e.rollSkill()");
+    const oldRollSkill = CONFIG.Actor.entityClass.prototype.rollSkill;
 
-	Actor5e.prototype.rollSkill = function(skillId, options={}) {
-		// This is copied directly from dnd5e 0.92 entity.js:481
-		// because I can't find a good way to pass in my own modifier.
-
-		const skl = this.data.data.skills[skillId];
-
-		// Compose roll parts and data
-		const parts = ["@mod", "@extra"];
-		const data = {mod: skl.mod + skl.prof, extra: this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`)};
-		if ( skl.bonus ) {
-		  data["skillBonus"] = skl.bonus;
-		  parts.push("@skillBonus");
-		}
-	
-		// Reliable Talent applies to any skill check we have full or better proficiency in
-		const reliableTalent = (skl.value >= 1 && this.getFlag("dnd5e", "reliableTalent"));
-	
-		// Roll and return
-		return d20Roll(mergeObject(options, {
-		  parts: parts,
-		  data: data,
-		  title: game.i18n.format("DND5E.SkillPromptTitle", {skill: CONFIG.DND5E.skills[skillId]}),
-		  speaker: ChatMessage.getSpeaker({actor: this}),
-		  halflingLucky: this.getFlag("dnd5e", "halflingLucky"),
-		  reliableTalent: reliableTalent
-		}));
-	}
+    CONFIG.Actor.entityClass.prototype.rollSkill = function (skillId, options = {}) {
+        const extraOptions = {
+            parts: ["@extra"],
+            data: {
+                extra: this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`),
+            },
+        };
+        oldRollSkill.call(this, skillId, mergeObject(options, extraOptions));
+    };
 }
 
 function injectActorSheet(app, html, data) {
-	html.find(".skills-list").addClass("skill-customize")
+    html.find(".skills-list").addClass("skill-customize");
 
-	const skillRowSelector = ".skills-list .skill";
+    const skillRowSelector = ".skills-list .skill";
 
-	const actor = app.actor;
+    const actor = app.actor;
 
-	html.find(skillRowSelector).each(function() {
-		const skillElem = $(this);
-		const skillKey = $(this).attr("data-skill");
-		const bonusKey = `${skillKey}.${SKILL_BONUS_KEY}`
-		const selectedAbility = actor.data.data.skills[skillKey].ability;
+    html.find(skillRowSelector).each(function () {
+        const skillElem = $(this);
+        const skillKey = $(this).attr("data-skill");
+        const bonusKey = `${skillKey}.${SKILL_BONUS_KEY}`;
+        const selectedAbility = actor.data.data.skills[skillKey].ability;
 
-		let selectElement = $('<select>');
-		selectElement.addClass("skill-ability-select");
-		Object.keys(actor.data.data.abilities).forEach(ability => {
-			let abilityOption = $('<option>');
-			let abilityKey = ability.charAt(0).toUpperCase() + ability.slice(1);
-			let abilityString = game.i18n.localize(`DND5E.Ability${abilityKey}`).slice(0,3);
+        let selectElement = $("<select>");
+        selectElement.addClass("skill-ability-select");
+        Object.keys(actor.data.data.abilities).forEach((ability) => {
+            let abilityOption = $("<option>");
+            let abilityKey = ability.charAt(0).toUpperCase() + ability.slice(1);
+            let abilityString = game.i18n.localize(`DND5E.Ability${abilityKey}`).slice(0, 3);
 
-			abilityOption.attr("value", ability);
+            abilityOption.attr("value", ability);
 
-			if (ability === selectedAbility) {
-				abilityOption.attr("selected", "true");
-			}
+            if (ability === selectedAbility) {
+                abilityOption.attr("selected", "true");
+            }
 
-			abilityOption.text(abilityString);
-			selectElement.append(abilityOption);
-		});
+            abilityOption.text(abilityString);
+            selectElement.append(abilityOption);
+        });
 
-		selectElement.change(function(event) {
-			let newData = { data: { skills: {}}};
-			newData.data.skills[skillKey] = { ability: event.target.value };
-			actor.update(newData);
-		});
+        selectElement.change(function (event) {
+            let newData = { data: { skills: {} } };
+            newData.data.skills[skillKey] = { ability: event.target.value };
+            actor.update(newData);
+        });
 
-		let textBoxElement = $('<input type="text" size=2>');
-		textBoxElement.addClass("skill-cust-bonus");
-		textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+        let textBoxElement = $('<input type="text" size=2>');
+        textBoxElement.addClass("skill-cust-bonus");
+        textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
 
-		textBoxElement.click(function() {
-			$(this).select();
-		});
+        textBoxElement.click(function () {
+            $(this).select();
+        });
 
-		textBoxElement.change(async function(event) {
-			const bonusValue = event.target.value;
-			const rollResult = await (new Roll(`1d20 + ${bonusValue}`).roll());
-			const valid = !isNaN(rollResult._total);
+        textBoxElement.change(async function (event) {
+            const bonusValue = event.target.value;
+            const rollResult = await new Roll(`1d20 + ${bonusValue}`).roll();
+            const valid = !isNaN(rollResult._total);
 
-			if (valid) {
-				actor.setFlag(MODULE_NAME, bonusKey, bonusValue)
-			} else {
-				textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
-			}
-		});
+            if (valid) {
+                actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
+            } else {
+                textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+            }
+        });
 
-		skillElem.find(".skill-ability").after(selectElement);
-		skillElem.find(".skill-ability").detach()
-		selectElement.after(textBoxElement);
-	});
+        skillElem.find(".skill-ability").after(selectElement);
+        skillElem.find(".skill-ability").detach();
+        selectElement.after(textBoxElement);
+    });
 }
