@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [2.0.0] 2020-07-20
+
+This update is compatible with dnd5e 0.9.4 and up *ONLY*.
+
+### CHANGED
+
+- Add compatibility for dnd5e 0.9.4.
+- Make it hopefully Forge Bazaar compatible?
+
 ## [1.3.0] 2020-06-23
 
 ### ADDED
