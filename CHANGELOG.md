@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [2.1.0] 2020-07-29
+
+### FIXED
+
+- Fixed an issue where the passive score for a skill would be calculated incorrectly if the actor had the "observant feat" option enabled in special traits.
+
 ## [2.0.0] 2020-07-20
 
 This update is compatible with dnd5e 0.9.4 and up *ONLY*.
