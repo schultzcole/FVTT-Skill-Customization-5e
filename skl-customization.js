@@ -47,13 +47,17 @@ function patchActor5eRollSkill() {
     const oldRollSkill = CONFIG.Actor.entityClass.prototype.rollSkill;
 
     CONFIG.Actor.entityClass.prototype.rollSkill = function (skillId, options = {}) {
-        const extraOptions = {
-            parts: ["@extra"],
-            data: {
-                extra: this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`),
-            },
-        };
-        oldRollSkill.call(this, skillId, mergeObject(options, extraOptions));
+        const skillBonus = this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`);
+        if (skillBonus) {
+            const extraOptions = {
+                parts: ["@extra"],
+                data: {
+                    extra: skillBonus,
+                },
+            };
+            mergeObject(options, extraOptions);
+        }
+        oldRollSkill.call(this, skillId, options);
     };
 }
 
