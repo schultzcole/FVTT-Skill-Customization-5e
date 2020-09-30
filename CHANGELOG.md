@@ -2,7 +2,7 @@
 
 ## [2.1.1] 2020-09-30
 
-Double check compatibility with core foundry 0.7.2 and dnd5e 0.9.6.
+Double check compatibility with core foundry 0.7.3 and dnd5e 0.9.6.
 
 ### CHANGED
 
