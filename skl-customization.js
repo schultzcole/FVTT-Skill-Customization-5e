@@ -103,13 +103,22 @@ function injectActorSheet(app, html, data) {
 
         textBoxElement.change(async function (event) {
             const bonusValue = event.target.value;
-            const rollResult = await new Roll(`1d20 + ${bonusValue}`).roll();
-            const valid = !isNaN(rollResult._total);
-
-            if (valid) {
-                actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
+            if (bonusValue === "-" || bonusValue === "0") {
+                actor.unsetFlag(MODULE_NAME, bonusKey);
+                textBoxElement.val(EMPTY_VALUE);
             } else {
-                textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+                try {
+                    const rollResult = await new Roll(`1d20 + ${bonusValue}`).roll();
+                    const valid = !isNaN(rollResult._total);
+
+                    if (valid) {
+                        actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
+                    } else {
+                        textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+                    }
+                } catch (err) {
+                    textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+                }
             }
         });
 
