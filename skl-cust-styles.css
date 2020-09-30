@@ -22,15 +22,19 @@
     appearance: none;
 }
 
-.dnd5e.sheet.actor:not(.alt5e):not(.tidy5e) ul.skills-list  {
+.dnd5e.sheet.actor ul.skills-list li.skill .skill-mod {
+    text-align: center;
+}
+
+.dnd5e.sheet.actor:not(.alt5e):not(.tidy5e) ul.skills-list {
     flex: 0 0 230px;
 }
 
 /* tidy 5e compatibility */
 .tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select,
 .tidy5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
-    height: .9rem;
-    line-height: .8rem;
-    font-size: .7rem;
+    height: 0.9rem;
+    line-height: 0.8rem;
+    font-size: 0.7rem;
     margin-top: -1px;
 }
