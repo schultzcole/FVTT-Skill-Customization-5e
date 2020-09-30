@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [2.1.1] 2020-09-30
+
+Double check compatibility with core foundry 0.7.2 and dnd5e 0.9.6.
+
+### CHANGED
+
+- Ensure that when "0" or "-" is entered for a skill bonus, the flag for that skill is unset and the sheet displays "-".
+
 ## [2.1.0] 2020-07-29
 
 ### FIXED
