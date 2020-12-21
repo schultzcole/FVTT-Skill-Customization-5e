@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [2.2.0] 2020-12-20
+
+### API
+
+- Return the result from the monkey-patched Actor5e#rollSkill so that it can be used "downstream" (Thanks CarlosFdez for the suggestion).
+
+### CHANGED
+
+- Bump compatible core version.
+
 ## [2.1.1] 2020-09-30
 
 Double check compatibility with core foundry 0.7.3 and dnd5e 0.9.6.
