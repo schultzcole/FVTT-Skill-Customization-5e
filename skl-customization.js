@@ -57,7 +57,7 @@ function patchActor5eRollSkill() {
             };
             mergeObject(options, extraOptions);
         }
-        oldRollSkill.call(this, skillId, options);
+        return oldRollSkill.call(this, skillId, options);
     };
 }
 
