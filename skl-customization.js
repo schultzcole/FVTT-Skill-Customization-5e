@@ -1,10 +1,4 @@
-/**
- * Author: Cole Schultz (cole#9640)
- * Software License: GNU GPLv3
- */
-
-// Import JavaScript modules
-import { Utils } from "./utils.js";
+import { libWrapper } from "./lib/libWrapper/shim.js";
 
 const EMPTY_VALUE = "-";
 const MODULE_NAME = "skill-customization-5e";
@@ -18,11 +12,8 @@ Hooks.once("setup", () => {
 Hooks.on("renderActorSheet", injectActorSheet);
 
 function patchActor5ePrepareData() {
-    Utils.log("Patching Actor5e.prepareData()");
-    const oldPrepareData = CONFIG.Actor.entityClass.prototype.prepareData;
-
-    CONFIG.Actor.entityClass.prototype.prepareData = function () {
-        oldPrepareData.call(this);
+    libWrapper.register(MODULE_NAME, "CONFIG.Actor.entityClass.prototype.prepareData", function patchedPrepareData(wrapped, ...args) {
+        wrapped(...args);
 
         const skills = this.data.data.skills;
         for (let key in skills) {
@@ -39,14 +30,12 @@ function patchActor5ePrepareData() {
                 skill.passive = 10 + skill.total + passiveBonus;
             }
         }
-    };
+    }, "WRAPPER");
 }
 
 function patchActor5eRollSkill() {
-    Utils.log("Patching Actor5e.rollSkill()");
-    const oldRollSkill = CONFIG.Actor.entityClass.prototype.rollSkill;
-
-    CONFIG.Actor.entityClass.prototype.rollSkill = function (skillId, options = {}) {
+    libWrapper.register(MODULE_NAME, "CONFIG.Actor.entityClass.prototype.rollSkill", function patchedRollSkill(wrapped, ...args) {
+        const [ skillId, options ] = args;
         const skillBonus = this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`);
         if (skillBonus) {
             const extraOptions = {
@@ -57,8 +46,8 @@ function patchActor5eRollSkill() {
             };
             mergeObject(options, extraOptions);
         }
-        return oldRollSkill.call(this, skillId, options);
-    };
+        return wrapped(...args);
+    });
 }
 
 function injectActorSheet(app, html, data) {
@@ -108,7 +97,7 @@ function injectActorSheet(app, html, data) {
         textBoxElement.change(async function (event) {
             const bonusValue = event.target.value;
             if (bonusValue === "-" || bonusValue === "0") {
-                actor.unsetFlag(MODULE_NAME, bonusKey);
+                await actor.unsetFlag(MODULE_NAME, bonusKey);
                 textBoxElement.val(EMPTY_VALUE);
             } else {
                 try {
@@ -116,7 +105,7 @@ function injectActorSheet(app, html, data) {
                     const valid = !isNaN(rollResult._total);
 
                     if (valid) {
-                        actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
+                        await actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
                     } else {
                         textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
                     }
