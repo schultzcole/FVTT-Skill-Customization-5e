@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [2.3.0] 2021-01-16
+
+### CHANGED
+
+- Use libWrapper for more robust compatibility with other modules.
+- Bump core compatible version.
+
 ## [2.2.0] 2020-12-20
 
 ### API

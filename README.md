@@ -14,6 +14,8 @@ May or may not work with all custom sheets or modules that modify rolling.
 
 Confirmed compatibility with Tidy5e Sheet, Alt5e Sheet, and Better Rolls for 5e.
 
+Makes use of libWrapper to reduce likelihood of conflicts. Installing libWrapper is not required to make use of this module.
+
 ## License
 
 Licensed under the GPLv3 License (see [LICENSE](LICENSE)).
