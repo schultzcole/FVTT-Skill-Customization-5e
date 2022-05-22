@@ -4,7 +4,7 @@ Gives the ability to apply arbitrary flat bonuses to skill rolls as well as chan
 
 ## Preview
 
-![Preview](preview.jpg)
+![Preview](https://github.com/schultzcole/FVTT-Skill-Customization-5e/raw/main/preview.jpg)
 
 As you can see, this module adds a drop down to select the base ability, as well as a box to enter an arbitrary bonus to each skill.
 
@@ -18,4 +18,4 @@ Makes use of libWrapper to reduce likelihood of conflicts. Installing libWrapper
 
 ## License
 
-Licensed under the GPLv3 License (see [LICENSE](LICENSE)).
+Licensed under the GNU GPL License (see [LICENSE](LICENSE)).

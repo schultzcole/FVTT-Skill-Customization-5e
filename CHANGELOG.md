@@ -1,4 +1,6 @@
-# CHANGELOG
+# LEGACY CHANGELOG
+
+Starting from Skill Customization 3.0.0 and up, change notes are located in the github release for each version.
 
 ## [2.3.0] 2021-01-16
 

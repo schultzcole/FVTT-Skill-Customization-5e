@@ -5,20 +5,19 @@
   "systems": [
     "dnd5e"
   ],
-  "version": "2.3.0",
+  "version": "0.0.0",
   "author": "Cole Schultz (cole#9640)",
   "esmodules": [
-    "skl-customization.js"
+    "scripts/skl-customization.js"
   ],
   "styles": [
-    "skl-cust-styles.css"
+    "styles/skl-cust-styles.css"
   ],
   "minimumCoreVersion": "0.6.2",
   "compatibleCoreVersion": "0.7.9",
-  "url": "https://github.com/schultzcole/FVTT-Skill-Customization-5e",
-  "manifest": "https://raw.githubusercontent.com/schultzcole/FVTT-Skill-Customization-5e/master/module.json",
-  "download": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/archive/2.3.0.zip",
+  "url": "This is auto replaced",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced",
   "license": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/2.3.0/LICENSE",
-  "readme": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/2.3.0/README.md",
-  "changelog": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/2.3.0/CHANGELOG.md"
+  "readme": "https://github.com/schultzcole/FVTT-Skill-Customization-5e/blob/2.3.0/README.md"
 }

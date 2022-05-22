@@ -1,4 +1,4 @@
-import { libWrapper } from "./lib/libWrapper/shim.js";
+import { libWrapper } from "../lib/libWrapper/shim.js";
 
 const EMPTY_VALUE = "-";
 const MODULE_NAME = "skill-customization-5e";
