@@ -1,7 +1,7 @@
 {
   "name": "skill-customization-5e",
   "title": "Skill Customization for D&D5e",
-  "description": "Gives the ability to apply arbitrary flat bonuses to skill rolls as well as changing the base ability modifier a skill roll uses.",
+  "description": "Provides a convenient one-click UI for changing the bonuses applied to a skill and the base ability a skill uses by default.",
   "systems": [
     "dnd5e"
   ],
