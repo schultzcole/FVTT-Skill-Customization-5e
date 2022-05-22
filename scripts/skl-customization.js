@@ -1,122 +1,35 @@
-import { libWrapper } from "../lib/libWrapper/shim.js";
-
-const EMPTY_VALUE = "-";
-const MODULE_NAME = "skill-customization-5e";
-const SKILL_BONUS_KEY = "skill-bonus";
-
-Hooks.once("setup", () => {
-    patchActor5ePrepareData();
-    patchActor5eRollSkill();
-});
-
-Hooks.on("renderActorSheet", injectActorSheet);
-
-function patchActor5ePrepareData() {
-    libWrapper.register(MODULE_NAME, "CONFIG.Actor.entityClass.prototype.prepareData", function patchedPrepareData(wrapped, ...args) {
-        wrapped(...args);
-
-        const skills = this.data.data.skills;
-        for (let key in skills) {
-            let skill = skills[key];
-            let bonus = this.getFlag(MODULE_NAME, `${key}.${SKILL_BONUS_KEY}`) || 0;
-            let bonusAsInt = parseInt(Number(bonus));
-            if (!isNaN(bonusAsInt)) {
-                skill.total += bonusAsInt;
-
-                // recalculate passive score, taking observant feat into account
-                const observant = this.data.flags.dnd5e?.observantFeat;
-                const passiveBonus =
-                    observant && CONFIG.DND5E.characterFlags.observantFeat.skills.includes(key) ? 5 : 0;
-                skill.passive = 10 + skill.total + passiveBonus;
-            }
-        }
-    }, "WRAPPER");
-}
-
-function patchActor5eRollSkill() {
-    libWrapper.register(MODULE_NAME, "CONFIG.Actor.entityClass.prototype.rollSkill", function patchedRollSkill(wrapped, ...args) {
-        const [ skillId, options ] = args;
-        const skillBonus = this.getFlag(MODULE_NAME, `${skillId}.${SKILL_BONUS_KEY}`);
-        if (skillBonus) {
-            const extraOptions = {
-                parts: ["@extra"],
-                data: {
-                    extra: skillBonus,
-                },
-            };
-            mergeObject(options, extraOptions);
-        }
-        return wrapped(...args);
-    });
-}
-
-function injectActorSheet(app, html, data) {
+Hooks.on("renderActorSheet", function injectSkillInputs(app, html, _) {
     html.find(".skills-list").addClass("skill-customize");
-
-    const skillRowSelector = ".skills-list .skill";
 
     const actor = app.actor;
 
-    html.find(skillRowSelector).each(function () {
+    html.find(".skills-list .skill").each(function () {
         const skillElem = $(this);
-        const skillKey = $(this).attr("data-skill");
-        const bonusKey = `${skillKey}.${SKILL_BONUS_KEY}`;
-        const selectedAbility = actor.data.data.skills[skillKey].ability;
+        const skillKey = skillElem.attr("data-skill");
+        const abilityPropertyPath = `data.skills.${skillKey}.ability`
+        const selectedAbility = foundry.utils.getProperty(actor.data, abilityPropertyPath);
 
-        let selectElement = $("<select>");
+        let selectElement = $(`<select name="${abilityPropertyPath}">`);
         selectElement.addClass("skill-ability-select");
-        Object.keys(actor.data.data.abilities).forEach((ability) => {
-            let abilityOption = $("<option>");
-            let abilityKey = ability.charAt(0).toUpperCase() + ability.slice(1);
-            let abilityString = game.i18n.localize(`DND5E.Ability${abilityKey}`).slice(0, 3);
+        for ( const abilityKey of Object.keys(actor.data.data.abilities) ) {
+            const abilityString = game.i18n.localize(`DND5E.Ability${abilityKey.titleCase()}`).slice(0, 3);
+            const selected = abilityKey === selectedAbility ? " selected" : "";
+            const abilityOption = $(`<option value="${abilityKey}"${selected}>${abilityString}</option>`);
 
-            abilityOption.attr("value", ability);
-
-            if (ability === selectedAbility) {
-                abilityOption.attr("selected", "true");
-            }
-
-            abilityOption.text(abilityString);
             selectElement.append(abilityOption);
-        });
+        }
 
-        selectElement.change(function (event) {
-            let newData = { data: { skills: {} } };
-            newData.data.skills[skillKey] = { ability: event.target.value };
-            actor.update(newData);
-        });
-
-        let textBoxElement = $('<input type="text" size=2>');
-        textBoxElement.addClass("skill-cust-bonus");
-        textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
+        const skillPropertyPath = `data.skills.${skillKey}.bonuses.check`;
+        const textBoxElement = $(`<input name="${skillPropertyPath}" class="skill-check-bonus" type="text" placeholder="-" >`);
+        textBoxElement.val(foundry.utils.getProperty(actor.data, skillPropertyPath));
 
         textBoxElement.click(function () {
             $(this).select();
         });
 
-        textBoxElement.change(async function (event) {
-            const bonusValue = event.target.value;
-            if (bonusValue === "-" || bonusValue === "0") {
-                await actor.unsetFlag(MODULE_NAME, bonusKey);
-                textBoxElement.val(EMPTY_VALUE);
-            } else {
-                try {
-                    const rollResult = await new Roll(`1d20 + ${bonusValue}`).roll();
-                    const valid = !isNaN(rollResult._total);
-
-                    if (valid) {
-                        await actor.setFlag(MODULE_NAME, bonusKey, bonusValue);
-                    } else {
-                        textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
-                    }
-                } catch (err) {
-                    textBoxElement.val(actor.getFlag(MODULE_NAME, bonusKey) || EMPTY_VALUE);
-                }
-            }
-        });
-
         skillElem.find(".skill-ability").after(selectElement);
-        skillElem.find(".skill-ability").detach();
+        skillElem.find(".skill-ability").remove();
         selectElement.after(textBoxElement);
     });
-}
+});
+
