@@ -1,20 +1,13 @@
 # Skill Customization for D&D5E
 
-Gives the ability to apply arbitrary flat bonuses to skill rolls as well as changing the base ability modifier a skill roll uses.
-
-## Preview
+Provides a convenient one-click UI for changing the bonuses applied to a skill and the base ability a skill uses by default.
 
 ![Preview](https://github.com/schultzcole/FVTT-Skill-Customization-5e/raw/main/preview.jpg)
 
-As you can see, this module adds a drop down to select the base ability, as well as a box to enter an arbitrary bonus to each skill.
-
 ## Compatibility
 
-May or may not work with all custom sheets or modules that modify rolling.
-
-Confirmed compatibility with Tidy5e Sheet, Alt5e Sheet, and Better Rolls for 5e.
-
-Makes use of libWrapper to reduce likelihood of conflicts. Installing libWrapper is not required to make use of this module.
+Functionally, this should work with any module that works with core dnd5e skill checks.
+However, custom sheet modules or modules that alter the dnd5e character sheet *may* cause visual conflicts, though that should be unlikely.
 
 ## License
 
