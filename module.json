@@ -8,7 +8,7 @@
   "version": "0.0.0",
   "author": "Cole Schultz (cole#9640)",
   "esmodules": [
-    "scripts/skl-customization.js"
+    "scripts/skl-customization.mjs"
   ],
   "styles": [
     "styles/skl-cust-styles.css"
