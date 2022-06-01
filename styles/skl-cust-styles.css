@@ -30,8 +30,9 @@
 }
 
 /* tidy 5e compatibility */
-.tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select,
-.tidy5e.sheet.actor .skills-list > .skill > .skill-cust-bonus {
+.tidy5e.sheet.actor .skills-list > .skill > .skill-check-bonus,
+.tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select {
+    flex: 0 0 25px;
     height: 0.9rem;
     line-height: 0.8rem;
     font-size: 0.7rem;
