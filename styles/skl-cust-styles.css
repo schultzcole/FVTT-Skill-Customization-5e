@@ -21,6 +21,11 @@
     appearance: none;
 }
 
+.dnd5e.sheet.actor .skills-list > .skill > .skill-ability-select > .skill-ability-select-orig {
+    background-color: var(--color-underline-header);
+    color: var(--color-text-light-0);
+}
+
 .dnd5e.sheet.actor ul.skills-list li.skill .skill-mod {
     text-align: center;
 }
@@ -37,4 +42,8 @@
     line-height: 0.8rem;
     font-size: 0.7rem;
     margin-top: -1px;
+}
+.tidy5e.sheet.actor .skills-list > .skill > .skill-ability-select > .skill-ability-select-orig {
+    color: var(--color-underline-header);
+    text-decoration: underline;
 }
