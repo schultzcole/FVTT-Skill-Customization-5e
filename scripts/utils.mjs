@@ -1,23 +1,36 @@
 /**
- * @param {string} tag
- * @param {string|null} text
- * @param {string[]} classes
- * @param {object} attrs
- * @param {object} events
+ * Create an HTML element and set a number of options as a single function call.
+ *
+ * @param {string} tag element tag to create (e.g. div)
+ * @param {string|null} text contained text of element
+ * @param {string[]} classes CSS classes of element
+ * @param {object} attrs HTML attributes on element
+ * @param {object} events event handlers for element
+ *
  * @returns {HTMLElement}
  */
-export function createElement(tag, { text = null, classes = null, attrs = {}, events = {} } = {}) {
-    const element = document.createElement(tag);
-    if ( text ) element.append(document.createTextNode(text));
-    if ( classes?.length > 0 ) element.classList.add(...classes);
+export function createElement(
+  tag,
+  { text = null, classes = null, attrs = {}, events = {} } = {}
+) {
+  const element = document.createElement(tag);
 
-    for ( const [ attrKey, attrVal ] of Object.entries(attrs) ) {
-        if (attrVal !== undefined) element[attrKey] = attrVal;
-    }
+  // add element text
+  if (text) element.append(document.createTextNode(text));
 
-    for ( const [ eventName, eventHandler ] of Object.entries(events) ) {
-        if (typeof eventHandler === "function") element.addEventListener(eventName, eventHandler);
-    }
+  // add element css classes
+  if (classes?.length > 0) element.classList.add(...classes);
 
-    return element;
+  // add element attributes (name, id, etc)
+  for (const [attrKey, attrVal] of Object.entries(attrs)) {
+    if (attrVal !== undefined) element[attrKey] = attrVal;
+  }
+
+  // add element event handlers
+  for (const [eventName, eventHandler] of Object.entries(events)) {
+    if (typeof eventHandler === "function")
+      element.addEventListener(eventName, eventHandler);
+  }
+
+  return element;
 }
