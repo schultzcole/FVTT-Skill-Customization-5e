@@ -1,20 +1,32 @@
 {
-  "name": "skill-customization-5e",
+  "id": "skill-customization-5e",
   "title": "Skill Customization for D&D5e",
   "description": "Provides a convenient one-click UI for changing the bonuses applied to a skill and the base ability a skill uses by default.",
-  "systems": [
-    "dnd5e"
-  ],
   "version": "0.0.0",
-  "author": "Cole Schultz (cole#9640)",
+  "authors": [{
+    "name": "Cole Schultz",
+    "discord": "cole#9640)"
+    }],
   "esmodules": [
     "scripts/skl-customization.mjs"
   ],
   "styles": [
     "styles/skl-cust-styles.css"
   ],
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
+  "compatibility": {
+    "minimum": 10,
+    "verified": "11.300"
+  },
+  "relationships": {
+    "systems": [{
+      "id": "dnd5e",
+      "type": "system",
+      "compatibility": {
+        "minimum": 2,
+        "verified": "2.2.1"
+      }
+    }]
+  },
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
