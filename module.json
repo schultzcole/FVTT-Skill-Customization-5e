@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "authors": [{
     "name": "Cole Schultz",
-    "discord": "cole#9640)"
+    "discord": "cole#9640"
     }],
   "esmodules": [
     "scripts/skl-customization.mjs"
